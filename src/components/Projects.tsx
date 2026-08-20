@@ -1,23 +1,24 @@
 import { Rocket, ArrowUpRight } from 'lucide-react'
 import { sideProjects } from '../data/sideProjects'
 import { useReveal } from '../hooks/useReveal'
+import { useLanguage } from '../i18n/LanguageContext'
+import { pick } from '../i18n/types'
 
 export default function Projects() {
   const { ref, visible } = useReveal<HTMLDivElement>()
+  const { lang, t } = useLanguage()
 
   return (
     <section id="projects" className="border-y border-white/5 bg-[var(--bg-elevated)] py-20 md:py-28">
       <div className="container-page">
         <div ref={ref} className={visible ? 'animate-fade-up' : 'opacity-0'}>
           <p className="text-sm font-semibold tracking-wide text-[var(--accent)] uppercase">
-            Side Projects
+            {t.projects.eyebrow}
           </p>
           <h2 className="mt-3 max-w-2xl text-3xl font-semibold text-[var(--text-primary)] sm:text-4xl">
-            Built outside the day job
+            {t.projects.heading}
           </h2>
-          <p className="mt-4 max-w-2xl text-[var(--text-secondary)]">
-            Personal products shipped to real users and the open-source community, end to end.
-          </p>
+          <p className="mt-4 max-w-2xl text-[var(--text-secondary)]">{t.projects.subheading}</p>
 
           <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {sideProjects.map((project) => (
@@ -44,7 +45,7 @@ export default function Projects() {
                   )}
                 </h3>
                 <p className="mt-2 flex-1 text-sm leading-relaxed text-[var(--text-secondary)]">
-                  {project.description}
+                  {pick(lang, project.description)}
                 </p>
                 <ul className="mt-4 flex flex-wrap gap-1.5">
                   {project.stack.map((tech) => (

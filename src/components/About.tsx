@@ -1,41 +1,18 @@
 import { Cloud, Code2, Users, ClipboardList, Landmark, Target } from 'lucide-react'
 import { useReveal } from '../hooks/useReveal'
-
-const focusAreas = [
-  {
-    icon: Code2,
-    title: 'Fullstack Development',
-    description:
-      'End-to-end delivery across React, Vue, Laravel, Django, Spring Boot and Node — from data models to pixel-level UI.',
-  },
-  {
-    icon: Landmark,
-    title: 'Banking & Payments',
-    description:
-      'Core banking integration and card-issuing systems at Sacombank — CPV/CNS verification, Omnicard, and T24 synchronization.',
-  },
-  {
-    icon: Users,
-    title: 'Team Leadership',
-    description:
-      'Leading cross-functional teams of 3–15 through the full delivery cycle — requirements, architecture, CI/CD and code review.',
-  },
-  {
-    icon: Cloud,
-    title: 'DevOps & Cloud',
-    description:
-      'Deployment pipelines and infrastructure on AWS, GCP and Docker, keeping releases fast and reliable.',
-  },
-  {
-    icon: ClipboardList,
-    title: 'Business Analysis',
-    description:
-      'Turning client requirements into clear specs and system design that ship the right thing the first time.',
-  },
-]
+import { useLanguage } from '../i18n/LanguageContext'
 
 export default function About() {
   const { ref, visible } = useReveal<HTMLDivElement>()
+  const { t } = useLanguage()
+
+  const focusAreas = [
+    { icon: Code2, title: t.about.focusFullstackTitle, description: t.about.focusFullstackDesc },
+    { icon: Landmark, title: t.about.focusBankingTitle, description: t.about.focusBankingDesc },
+    { icon: Users, title: t.about.focusLeadershipTitle, description: t.about.focusLeadershipDesc },
+    { icon: Cloud, title: t.about.focusDevopsTitle, description: t.about.focusDevopsDesc },
+    { icon: ClipboardList, title: t.about.focusBaTitle, description: t.about.focusBaDesc },
+  ]
 
   return (
     <section id="about" className="py-20 md:py-28">
@@ -44,26 +21,17 @@ export default function About() {
           ref={ref}
           className={visible ? 'animate-fade-up' : 'opacity-0'}
         >
-          <p className="text-sm font-semibold tracking-wide text-[var(--accent)] uppercase">About</p>
+          <p className="text-sm font-semibold tracking-wide text-[var(--accent)] uppercase">{t.about.eyebrow}</p>
           <h2 className="mt-3 max-w-2xl text-3xl font-semibold text-[var(--text-primary)] sm:text-4xl">
-            Solving hard integration problems across legacy and modern systems.
+            {t.about.heading}
           </h2>
-          <p className="mt-5 max-w-2xl leading-relaxed text-[var(--text-secondary)]">
-            8+ years building and scaling web, mobile and backend systems, including
-            mission-critical banking integrations — from a PHP developer at Sharing Innovation, to
-            an onsite full-stack engineer at Pascalia Asia, to a team lead at Salto Vietnam
-            shipping 15 client projects, and today a System Integration Specialist on Core
-            Omnicard (Core Card) at Sacombank. Known for solving hard integration problems
-            rather than specializing in a single stack.
-          </p>
+          <p className="mt-5 max-w-2xl leading-relaxed text-[var(--text-secondary)]">{t.about.paragraph}</p>
 
           <div className="mt-6 flex max-w-2xl gap-3 rounded-2xl border border-[var(--accent)]/30 bg-[var(--accent)]/5 p-5">
             <Target size={20} className="mt-0.5 shrink-0 text-[var(--accent)]" aria-hidden="true" />
             <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
-              <span className="font-semibold text-[var(--text-primary)]">Goal:</span> transition
-              into a Technical Lead role — owning architecture decisions, mentoring developers,
-              and shipping high-impact products — while continuing to deepen hands-on technical
-              depth.
+              <span className="font-semibold text-[var(--text-primary)]">{t.about.goalLabel}</span>{' '}
+              {t.about.goalText}
             </p>
           </div>
 

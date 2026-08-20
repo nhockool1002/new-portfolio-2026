@@ -1,12 +1,7 @@
 import { ArrowDown, ArrowUpRight, Download, Mail, Phone } from 'lucide-react'
 import { contact } from '../data/contact'
 import LinkedInIcon from './icons/LinkedInIcon'
-
-const stats = [
-  { value: '8+', label: 'Years of experience' },
-  { value: '15+', label: 'Shipped projects' },
-  { value: '20+', label: 'Technologies' },
-]
+import { useLanguage } from '../i18n/LanguageContext'
 
 const quickContacts = [
   { icon: Phone, label: contact.phone, href: contact.phoneHref },
@@ -15,6 +10,14 @@ const quickContacts = [
 ]
 
 export default function Hero() {
+  const { t } = useLanguage()
+
+  const stats = [
+    { value: '8+', label: t.hero.statYears },
+    { value: '15+', label: t.hero.statProjects },
+    { value: '20+', label: t.hero.statTech },
+  ]
+
   return (
     <section id="top" className="grid-glow relative overflow-hidden pt-32 pb-20 md:pt-44 md:pb-28">
       <div className="container-page">
@@ -23,7 +26,7 @@ export default function Hero() {
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" aria-hidden="true" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" aria-hidden="true" />
           </span>
-          Open to new opportunities
+          {t.hero.badge}
         </p>
 
         <h1
@@ -47,11 +50,7 @@ export default function Hero() {
           className="animate-fade-up mt-6 max-w-2xl text-base leading-relaxed text-[var(--text-secondary)] sm:text-lg"
           style={{ animationDelay: '200ms' }}
         >
-          8+ years building and scaling web, mobile and backend systems, including
-          mission-critical banking integrations. Proven track record leading cross-functional
-          teams of 3–15 through the full delivery cycle — requirements, architecture, CI/CD and
-          code review — across React/Vue front ends and Laravel/Python/Node.js/Spring Boot
-          backends.
+          {t.hero.summary}
         </p>
 
         <div
@@ -62,7 +61,7 @@ export default function Hero() {
             href="#experience"
             className="inline-flex items-center gap-2 rounded-full bg-[var(--accent)] px-6 py-3 text-sm font-semibold text-[#06110f] transition-transform hover:scale-[1.03]"
           >
-            View experience
+            {t.hero.viewExperience}
             <ArrowUpRight size={16} aria-hidden="true" />
           </a>
           <a
@@ -71,7 +70,7 @@ export default function Hero() {
             className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] px-6 py-3 text-sm font-semibold text-[var(--text-primary)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
           >
             <Download size={16} aria-hidden="true" />
-            Download CV
+            {t.hero.downloadCV}
           </a>
         </div>
 
@@ -111,7 +110,7 @@ export default function Hero() {
 
       <a
         href="#about"
-        aria-label="Scroll to about section"
+        aria-label={t.hero.scrollToAbout}
         className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 text-[var(--text-muted)] transition-colors hover:text-[var(--accent)] md:block"
       >
         <ArrowDown size={22} aria-hidden="true" />
