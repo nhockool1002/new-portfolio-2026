@@ -1,6 +1,7 @@
 import { Mail, Phone, Globe, ArrowUpRight } from 'lucide-react'
 import { contact } from '../data/contact'
 import LinkedInIcon from './icons/LinkedInIcon'
+import { useLanguage } from '../i18n/LanguageContext'
 
 const channels = [
   { icon: Mail, label: contact.email, href: `mailto:${contact.email}`, primary: true },
@@ -10,20 +11,19 @@ const channels = [
 ]
 
 export default function Contact() {
+  const { t } = useLanguage()
+
   return (
     <section id="contact" className="grid-glow border-t border-white/5 py-20 md:py-28">
       <div className="container-page">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-sm font-semibold tracking-wide text-[var(--accent)] uppercase">
-            Contact
+            {t.contact.eyebrow}
           </p>
           <h2 className="mt-3 text-3xl font-semibold text-[var(--text-primary)] sm:text-4xl">
-            Let's build something together
+            {t.contact.heading}
           </h2>
-          <p className="mt-4 text-[var(--text-secondary)]">
-            Open to Technical Lead, team lead and full-stack roles. Reach out and I'll get back
-            to you shortly.
-          </p>
+          <p className="mt-4 text-[var(--text-secondary)]">{t.contact.subheading}</p>
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             {channels.map(({ icon: Icon, label, href, primary }) => (

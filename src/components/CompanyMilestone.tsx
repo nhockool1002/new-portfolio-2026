@@ -4,6 +4,8 @@ import type { Company } from '../data/experience'
 import { accentStyles } from '../lib/accents'
 import { formatDuration } from '../lib/duration'
 import { useReveal } from '../hooks/useReveal'
+import { useLanguage } from '../i18n/LanguageContext'
+import { pick, pickList } from '../i18n/types'
 import ProjectRow from './ProjectRow'
 
 const COLLAPSED_COUNT = 3
@@ -11,6 +13,7 @@ const COLLAPSED_COUNT = 3
 export default function CompanyMilestone({ company, index }: { company: Company; index: number }) {
   const { ref, visible } = useReveal<HTMLLIElement>()
   const [expanded, setExpanded] = useState(false)
+  const { lang, t } = useLanguage()
   const accent = accentStyles[company.accent]
 
   const hasAdditional = (company.additionalProjects?.length ?? 0) > 0
@@ -42,32 +45,32 @@ export default function CompanyMilestone({ company, index }: { company: Company;
               <span
                 className={`rounded-full px-2 py-0.5 text-[10px] font-medium tracking-wide uppercase ${accent.badgeBg} ${accent.badgeText}`}
               >
-                Current
+                {t.experience.current}
               </span>
             )}
           </h3>
           <span className="font-[var(--font-mono)] text-xs text-[var(--text-muted)]">
-            {company.period} · {formatDuration(company.period)}
+            {company.period.replace('Present', t.experience.present)} · {formatDuration(company.period, lang)}
           </span>
         </div>
 
-        <p className={`mt-1.5 text-sm font-medium ${accent.text}`}>{company.role}</p>
+        <p className={`mt-1.5 text-sm font-medium ${accent.text}`}>{pick(lang, company.role)}</p>
 
         <p className="mt-3 text-sm leading-relaxed text-[var(--text-secondary)]">
-          {company.summary}
+          {pick(lang, company.summary)}
         </p>
 
         {soleProject && (
           <div className="mt-5 border-t border-[var(--border)] pt-5">
             {soleProject.note && (
               <p className="text-xs leading-relaxed text-[var(--text-muted)] italic">
-                Projects: {soleProject.note}
+                {t.experience.projectsLabel} {soleProject.note}
               </p>
             )}
 
             {soleProject.highlights ? (
               <ul className="mt-3 space-y-1.5">
-                {soleProject.highlights.map((point) => (
+                {pickList(lang, soleProject.highlights).map((point) => (
                   <li
                     key={point}
                     className="flex gap-2 text-sm leading-relaxed text-[var(--text-secondary)]"
@@ -81,9 +84,9 @@ export default function CompanyMilestone({ company, index }: { company: Company;
                 ))}
               </ul>
             ) : (
-              soleProject.description && (
+              pick(lang, soleProject.description) && (
                 <p className="mt-3 text-sm leading-relaxed text-[var(--text-secondary)]">
-                  {soleProject.description}
+                  {pick(lang, soleProject.description)}
                 </p>
               )
             )}
@@ -104,7 +107,7 @@ export default function CompanyMilestone({ company, index }: { company: Company;
         {majorProjects.length > 0 && (
           <div className="mt-5 border-t border-[var(--border)] pt-5">
             <p className="text-xs font-semibold tracking-wide text-[var(--text-muted)] uppercase">
-              Key projects ({majorProjects.length})
+              {t.experience.keyProjects} ({majorProjects.length})
             </p>
 
             <ul className="mt-1">
@@ -118,7 +121,7 @@ export default function CompanyMilestone({ company, index }: { company: Company;
         {additionalProjects.length > 0 && (
           <div className="mt-5 border-t border-[var(--border)] pt-5">
             <p className="text-xs font-semibold tracking-wide text-[var(--text-muted)] uppercase">
-              Additional engagements ({additionalProjects.length})
+              {t.experience.additionalEngagements} ({additionalProjects.length})
             </p>
 
             <ul className="mt-1">
@@ -133,7 +136,8 @@ export default function CompanyMilestone({ company, index }: { company: Company;
                 onClick={() => setExpanded(true)}
                 className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]"
               >
-                Show {hiddenCount} more project{hiddenCount > 1 ? 's' : ''}
+                {t.experience.showMore} {hiddenCount}{' '}
+                {hiddenCount > 1 ? t.experience.moreProjects : t.experience.moreProject}
                 <ChevronDown size={15} aria-hidden="true" />
               </button>
             ) : (
@@ -144,7 +148,7 @@ export default function CompanyMilestone({ company, index }: { company: Company;
                   onClick={() => setExpanded(false)}
                   className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]"
                 >
-                  Show less
+                  {t.experience.showLess}
                   <ChevronDown size={15} className="rotate-180" aria-hidden="true" />
                 </button>
               )

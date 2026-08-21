@@ -1,6 +1,8 @@
 import { Users } from 'lucide-react'
 import type { Accent, Project } from '../data/experience'
 import { accentStyles } from '../lib/accents'
+import { useLanguage } from '../i18n/LanguageContext'
+import { pick } from '../i18n/types'
 
 export default function ProjectRow({
   project,
@@ -11,7 +13,9 @@ export default function ProjectRow({
   accent: Accent
   emphasized?: boolean
 }) {
+  const { lang } = useLanguage()
   const styles = accentStyles[accent]
+  const description = pick(lang, project.description)
 
   return (
     <li className={`relative border-l border-[var(--border)] pl-6 ${emphasized ? 'py-4' : 'py-3'} last:pb-0`}>
@@ -32,21 +36,19 @@ export default function ProjectRow({
       </div>
 
       <div className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1">
-        <p className={`text-xs font-medium ${styles.text}`}>{project.role}</p>
+        <p className={`text-xs font-medium ${styles.text}`}>{pick(lang, project.role)}</p>
         {project.team && (
           <span
             className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium ${styles.badgeBg} ${styles.badgeText}`}
           >
             <Users size={10} aria-hidden="true" />
-            {project.team}
+            {pick(lang, project.team)}
           </span>
         )}
       </div>
 
-      {project.description && (
-        <p className="mt-1.5 text-[13px] leading-relaxed text-[var(--text-secondary)]">
-          {project.description}
-        </p>
+      {description && (
+        <p className="mt-1.5 text-[13px] leading-relaxed text-[var(--text-secondary)]">{description}</p>
       )}
 
       <ul className="mt-2.5 flex flex-wrap gap-1.5">
